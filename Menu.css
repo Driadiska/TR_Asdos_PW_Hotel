@@ -17,7 +17,6 @@ body{
   background:#f5f7fb;
 }
 
-/* TOP BAR */
 .topbar{
   background:#fff;
   color:#333;
@@ -34,7 +33,6 @@ body{
   align-items:center;
 }
 
-/* HEADER NAV */
 header{
   background:var(--dark-blue);
 }
@@ -106,7 +104,6 @@ nav a:hover{
   background:rgba(255,255,255,0.06);
 }
 
-/* HERO SECTION */
 .hero{
   max-width:1200px;
   margin:36px auto;
@@ -141,7 +138,6 @@ nav a:hover{
   line-height:1.7;
 }
 
-/* HERO IMAGE */
 .hero-right{
   display:flex;
   justify-content:center;
@@ -155,7 +151,6 @@ nav a:hover{
   transform:translateY(6px);
 }
 
-/* CONTACT FLOATING TAB */
 .contact-tab{
   position:fixed;
   right:12px;
@@ -171,7 +166,6 @@ nav a:hover{
   transform:rotate(180deg);
 }
 
-/* RESPONSIVE */
 @media (max-width:1000px){
   .hero{
     grid-template-columns:1fr 300px;

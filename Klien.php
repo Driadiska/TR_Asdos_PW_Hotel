@@ -1,9 +1,6 @@
 <?php
 session_start();
 
-// ---------------------------
-// KONEKSI DATABASE
-// ---------------------------
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -15,9 +12,7 @@ if (!$conn) {
 }
 
 
-// ========================================================
-// PROSES TAMBAH KLIEN
-// ========================================================
+
 if (isset($_POST['tambah']) && $_SESSION['role'] === 'admin') {
     $nama = $_POST['nama'];
     $telepon = $_POST['telepon'];
@@ -28,9 +23,7 @@ if (isset($_POST['tambah']) && $_SESSION['role'] === 'admin') {
 }
 
 
-// ========================================================
-// PROSES EDIT KLIEN
-// ========================================================
+
 if (isset($_POST['edit']) && $_SESSION['role'] === 'admin') {
     $id   = $_POST['id_edit'];
     $nama = $_POST['nama_edit'];
@@ -47,12 +40,15 @@ if (isset($_POST['edit']) && $_SESSION['role'] === 'admin') {
 }
 
 
-// ========================================================
-// PROSES HAPUS KLIEN
-// ========================================================
+
 if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
     $id = $_POST['id_hapus'];
+
     mysqli_query($conn, "DELETE FROM klien WHERE id=$id");
+
+    mysqli_query($conn, "SET @num := 0");
+    mysqli_query($conn, "UPDATE klien SET id = (@num := @num + 1) ORDER BY id");
+    mysqli_query($conn, "ALTER TABLE klien AUTO_INCREMENT = 1");
 
     echo "<script>window.location='klien.php';</script>";
 }
@@ -98,7 +94,6 @@ if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
 </head>
 <body>
 
-<!-- NAVBAR -->
 <header>
     <?php include 'nav/nav.php'; ?>
 </header>
@@ -114,7 +109,6 @@ if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
     <th>No. Telepon</th>
     <th>Alamat</th>
 
-    <!-- TAMPILKAN AKSI HANYA UNTUK ADMIN -->
     <?php if ($_SESSION['role'] === 'admin') { ?>
         <th>Aksi</th>
     <?php } ?>
@@ -134,7 +128,6 @@ while ($row = mysqli_fetch_assoc($result)) {
         <td>".$row['telepon']."</td>
         <td>".$row['alamat']."</td>";
 
-    // TOMBOL AKSI KHUSUS ADMIN
     if ($_SESSION['role'] === 'admin') {
         echo "
         <td>
@@ -156,7 +149,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <br>
 
-<!-- TOMBOL TAMBAH (KHUSUS ADMIN) -->
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <button class="btn-green" onclick="openTambahModal()">+ Tambah Klien</button>
 <?php } ?>
@@ -164,9 +156,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 </section>
 
 
-<!-- ==================================================
-MODAL TAMBAH
-=================================================== -->
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalTambah">
     <div class="modal-box">
@@ -185,9 +174,6 @@ MODAL TAMBAH
 <?php } ?>
 
 
-<!-- ==================================================
-MODAL EDIT
-=================================================== -->
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalEdit">
     <div class="modal-box">
@@ -213,9 +199,6 @@ MODAL EDIT
 <?php } ?>
 
 
-<!-- ==================================================
-MODAL DELETE
-=================================================== -->
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalDelete">
     <div class="modal-box">
@@ -232,13 +215,13 @@ MODAL DELETE
 </div>
 <?php } ?>
 
+
 <script>
 
-// TAMBAH
 function openTambahModal(){ document.getElementById("modalTambah").style.display = "flex"; }
 function closeTambahModal(){ document.getElementById("modalTambah").style.display = "none"; }
 
-// EDIT
+
 function openEditModal(id, nama, telepon, alamat){
     document.getElementById("modalEdit").style.display = "flex";
     document.getElementById("id_edit").value = id;
@@ -248,7 +231,7 @@ function openEditModal(id, nama, telepon, alamat){
 }
 function closeEditModal(){ document.getElementById("modalEdit").style.display = "none"; }
 
-// DELETE
+
 function openDeleteModal(id){
     document.getElementById("modalDelete").style.display = "flex";
     document.getElementById("id_hapus").value = id;

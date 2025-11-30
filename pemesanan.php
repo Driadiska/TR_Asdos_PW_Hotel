@@ -2,16 +2,13 @@
 session_start();
 include "koneksi.php";
 
-// Cek apakah user sudah login
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
 
-// Ambil username login
 $user = $_SESSION['username'];
 
-// Ambil tipe kamar dari URL (jika dipilih dari halaman lain)
 $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
 ?>
 <!DOCTYPE html>
@@ -34,7 +31,6 @@ $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
 
     <h2>Form Pemesanan Kamar</h2>
 
-    <!-- Form diarahkan ke proses_pemesanan.php -->
     <form action="proses_pemesanan.php" method="POST" style="margin-bottom: 25px;">
 
         <label>Tipe Kamar</label><br>
@@ -90,7 +86,6 @@ $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
         <tbody>
 
         <?php  
-        // Tampilkan pesanan hanya milik user yang sedang login
         $data = mysqli_query($conn, 
             "SELECT * FROM pesanan WHERE username='$user' ORDER BY id DESC"
         );

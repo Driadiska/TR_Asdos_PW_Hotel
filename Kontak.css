@@ -18,9 +18,7 @@ body{
   color:#333;
 }
 
-/* =======================
-   TOP BAR
-======================= */
+
 .topbar{
   background:#fff;
   padding:6px 18px;
@@ -37,9 +35,7 @@ body{
   align-items:center;
 }
 
-/* =======================
-   NAVBAR
-======================= */
+
 header{
   background:var(--dark-blue);
 }
@@ -77,7 +73,6 @@ header{
   font-size:12px;
 }
 
-/* MENU */
 nav ul{
   display:flex;
   list-style:none;
@@ -96,14 +91,12 @@ nav a:hover{
   opacity:1;
 }
 
-/* ACTIVE MENU */
 nav a.active{
   opacity:1;
   border-bottom:2px solid #fff;
   padding-bottom:4px;
 }
 
-/* BUTTON */
 .cta{
   background:transparent;
   border:2px solid rgba(255,255,255,0.25);
@@ -118,9 +111,7 @@ nav a.active{
   background:rgba(255,255,255,0.06);
 }
 
-/* =======================
-   CONTACT BOX
-======================= */
+
 .contact-box{
   max-width:1200px;
   margin:40px auto;
@@ -143,7 +134,6 @@ nav a.active{
   opacity:0.8;
 }
 
-/* TABLE */
 table{
   width:100%;
   border-collapse:collapse;
@@ -166,9 +156,7 @@ tbody tr:hover{
   background:#f0f6ff;
 }
 
-/* =======================
-   RESPONSIVE
-======================= */
+
 @media(max-width:900px){
   nav ul{
     gap:18px;

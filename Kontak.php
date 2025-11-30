@@ -9,7 +9,6 @@
 </head>
 <body>
 
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="inner">
       <span>Bukit Blotongan Astetic No.1 Blok H, Kota Salatiga</span>
@@ -17,7 +16,6 @@
     </div>
   </div>
 
-  <!-- NAVBAR -->
   <header>
     <div class="nav">
       <div class="logo">
@@ -28,7 +26,6 @@
         </div>
       </div>
 
-      <!-- MENU BARU DITAMBAHKAN -->
       <nav>
         <ul>
           <li><a href="Menu.php">HOME</a></li>
@@ -44,7 +41,6 @@
     </div>
   </header>
 
-  <!-- CONTACT CONTENT -->
   <section class="contact-box">
 
     <h2>Kontak Kelompok</h2>

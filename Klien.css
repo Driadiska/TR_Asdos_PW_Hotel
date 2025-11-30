@@ -18,9 +18,7 @@ body{
   color:#333;
 }
 
-/* =======================
-   TOP BAR
-======================= */
+
 .topbar{
   background:#fff;
   padding:6px 18px;
@@ -37,9 +35,7 @@ body{
   align-items:center;
 }
 
-/* =======================
-   NAVBAR
-======================= */
+
 header{
   background:var(--dark-blue);
 }
@@ -95,7 +91,6 @@ nav a:hover{
   opacity:1;
 }
 
-/* BUTTON */
 .cta{
   background:transparent;
   border:2px solid rgba(255,255,255,0.25);
@@ -110,9 +105,7 @@ nav a:hover{
   background:rgba(255,255,255,0.06);
 }
 
-/* =======================
-   KLIEN TABLE BOX
-======================= */
+
 .klien-box{
   max-width:1200px;
   margin:40px auto;
@@ -129,7 +122,6 @@ nav a:hover{
   margin-bottom:18px;
 }
 
-/* TABLE */
 table{
   width:100%;
   border-collapse:collapse;
@@ -152,7 +144,6 @@ tbody tr:hover{
   background:#f0f6ff;
 }
 
-/* BUTTONS */
 .btn-add{
   background:var(--blue);
   color:white;
@@ -189,7 +180,6 @@ tbody tr:hover{
   opacity:.85;
 }
 
-/* RESPONSIVE */
 @media(max-width:700px){
   table th, table td{
     font-size:13px;

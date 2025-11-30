@@ -1,6 +1,3 @@
-/* ===========================
-   GLOBAL STYLE
-=========================== */
 body {
     margin: 0;
     padding: 0;
@@ -9,7 +6,6 @@ body {
     color: #333;
 }
 
-/* Container umum */
 .container {
     width: 90%;
     max-width: 600px;
@@ -20,16 +16,13 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* Judul halaman */
 h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #222;
 }
 
-/* ===========================
-   FORM STYLE
-=========================== */
+
 form label {
     font-weight: 600;
 }
@@ -52,7 +45,6 @@ form select:focus {
     box-shadow: 0 0 5px rgba(59,130,246,0.5);
 }
 
-/* Tombol utama */
 button {
     width: 100%;
     background: #3b82f6;
@@ -69,9 +61,7 @@ button:hover {
     background: #1e64d4;
 }
 
-/* ===========================
-   TABLE STYLE (Daftar Pesanan)
-=========================== */
+
 
 .table-container {
     width: 90%;
@@ -111,7 +101,6 @@ table tr:hover {
     color: #777;
 }
 
-/* Tombol aksi */
 .btn-delete {
     padding: 6px 12px;
     background: #ef4444;
@@ -126,9 +115,7 @@ table tr:hover {
     background: #c53030;
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
+
 
 @media (max-width: 600px) {
     .container, .table-container {

@@ -1,33 +1,99 @@
 <?php
-$conn = mysqli_connect("localhost","root","","hotel_bhlilz");
+session_start();
+include "koneksi.php";
+
+// Cek login
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$user = $_SESSION['username'];
+
+// Ambil ID pesanan
 $id = $_GET['id'];
 
-$q = mysqli_query($conn, "SELECT * FROM pesanan WHERE id=$id");
-$d = mysqli_fetch_assoc($q);
+// Ambil data pesanan berdasarkan ID + username
+$query = mysqli_query($conn, 
+    "SELECT * FROM pesanan 
+     WHERE id='$id' AND username='$user'"
+);
+
+if (mysqli_num_rows($query) == 0) {
+    echo "<script>alert('Data tidak ditemukan!'); window.location='pesanan.php';</script>";
+    exit;
+}
+
+$data = mysqli_fetch_assoc($query);
 ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Pesanan Kamar</title>
 
-<h2>Edit Pesanan Kamar</h2>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Klien.css">
+    <link rel="stylesheet" href="nav/nav.css">
+</head>
+<body>
 
-<form action="update_pesanan.php" method="POST">
+<header>
+    <?php include 'nav/nav.php'; ?>
+</header>
 
-    <input type="hidden" name="id" value="<?= $d['id'] ?>">
+<section class="klien-box">
 
-    Nama:
-    <input type="text" name="nama" value="<?= $d['nama'] ?>" required><br><br>
+    <h2>Edit Pesanan Kamar</h2>
 
-    Tipe Kamar:
-    <select name="tipe_kamar">
-        <option <?= $d['tipe_kamar']=="Standard Room" ? "selected":"" ?>>Standard Room</option>
-        <option <?= $d['tipe_kamar']=="Deluxe Room"   ? "selected":"" ?>>Deluxe Room</option>
-        <option <?= $d['tipe_kamar']=="Suite Room"    ? "selected":"" ?>>Suite Room</option>
-    </select><br><br>
+    <form action="update_pesanan.php" method="POST" style="margin-bottom: 25px;">
 
-    Check-in:
-    <input type="date" name="checkin" value="<?= $d['checkin'] ?>" required><br><br>
+        <input type="hidden" name="id" value="<?= $data['id'] ?>">
 
-    Check-out:
-    <input type="date" name="checkout" value="<?= $d['checkout'] ?>" required><br><br>
+        <!-- Dropdown tipe kamar -->
+        <label>Tipe Kamar</label><br>
+        <select 
+            name="tipe_kamar"
+            required
+            style="padding:10px; width:320px; margin:6px 0; border:1px solid #ccc; border-radius:6px;"
+        >
+            <option value="Standard" <?= ($data['tipe_kamar'] == "Standard") ? "selected" : "" ?>>Standard</option>
+            <option value="Deluxe" <?= ($data['tipe_kamar'] == "Deluxe") ? "selected" : "" ?>>Deluxe</option>
+            <option value="Suite" <?= ($data['tipe_kamar'] == "Suite") ? "selected" : "" ?>>Suite</option>
+        </select>
+        <br><br>
 
-    <button type="submit">Update</button>
+        <label>Nama Pemesan</label><br>
+        <input 
+            type="text" 
+            name="nama" 
+            value="<?= $data['nama'] ?>" 
+            required
+            style="padding:10px; width:300px; margin:6px 0; border:1px solid #ccc; border-radius:6px;"
+        ><br><br>
 
-</form>
+        <label>Tanggal Check-in</label><br>
+        <input 
+            type="date" 
+            name="checkin"
+            value="<?= $data['checkin'] ?>"
+            required
+            style="padding:10px; width:200px; margin:6px 0; border:1px solid #ccc; border-radius:6px;"
+        ><br><br>
+
+        <label>Tanggal Check-out</label><br>
+        <input 
+            type="date" 
+            name="checkout"
+            value="<?= $data['checkout'] ?>"
+            required
+            style="padding:10px; width:200px; margin:6px 0; border:1px solid #ccc; border-radius:6px;"
+        ><br><br>
+
+        <button type="submit" class="btn-add">Perbarui Pesanan</button>
+    </form>
+
+</section>
+
+</body>
+</html>

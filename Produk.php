@@ -22,7 +22,6 @@
 
 <section class="room-list">
 
-    <!-- STANDARD ROOM -->
     <div class="room">
         <img src="StandardRoom.webp">
         <div class="room-info">
@@ -47,7 +46,6 @@
     </div>
 
 
-    <!-- DELUXE ROOM -->
     <div class="room">
         <img src="DeluxeRoom.webp">
         <div class="room-info">
@@ -72,7 +70,6 @@
     </div>
 
 
-    <!-- SUITE ROOM -->
     <div class="room">
         <img src="SuiteRoom.webp">
         <div class="room-info">

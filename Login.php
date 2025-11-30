@@ -67,14 +67,12 @@
   </div>
 
 <script>
-  // --- JAVASCRIPT UNTUK KOMUNIKASI DENGAN PHP ---
 
-  // 1. Logika Login
   document.getElementById("login-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);
-    formData.append("action", "login"); // Tandai ini aksi login
+    formData.append("action", "login"); 
 
     fetch("auth.php", {
       method: "POST",
@@ -93,12 +91,11 @@
     .catch(error => console.error("Error:", error));
   });
 
-  // 2. Logika Register
   document.getElementById("register-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const formData = new FormData(this);
-    formData.append("action", "register"); // Tandai ini aksi register
+    formData.append("action", "register"); 
 
     fetch("auth.php", {
       method: "POST",
@@ -108,7 +105,6 @@
     .then(data => {
       if (data.status === "success") {
         alert(data.message);
-        // Kembali ke form login otomatis
         document.getElementById("register-form").reset();
         document.getElementById("register-form").style.display = "none";
         document.getElementById("login-form").style.display = "block";
@@ -119,7 +115,6 @@
     .catch(error => console.error("Error:", error));
   });
 
-  // 3. Tampilan Ganti Form (UI)
   document.getElementById("show-register").onclick = () => {
     document.getElementById("login-form").style.display = "none";
     document.getElementById("register-form").style.display = "block";
