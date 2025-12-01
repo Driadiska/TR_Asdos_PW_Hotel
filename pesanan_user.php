@@ -22,6 +22,32 @@ $data = mysqli_query($conn,
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Klien.css">
     <link rel="stylesheet" href="nav/nav.css">
+
+    <style>
+        .btn-edit {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-edit:hover {
+            background: #1f776d;
+        }
+
+        .btn-delete {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background: #b71c1c;
+        }
+    </style>
 </head>
 <body>
 
@@ -63,6 +89,13 @@ $data = mysqli_query($conn,
                 <td>
                     <a href="edit_pesanan.php?id=<?= $row['id'] ?>">
                         <button class="btn-edit">Edit</button>
+                    </a>
+
+                    <a 
+                        href="hapus_pesanan.php?id=<?= $row['id'] ?>"
+                        onclick="return confirm('Yakin ingin menghapus pesanan ini?')"
+                    >
+                        <button class="btn-delete">Hapus</button>
                     </a>
                 </td>
             </tr>

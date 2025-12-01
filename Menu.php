@@ -45,11 +45,10 @@
     <section class="hero">
       <div class="hero-left">
         <h2>BHLILZ</h2>
-        <h3>Software BHLILZ yang Membuat<br>Hotel Lebih Terjamin Dan Nyaman</h3>
+        <h3>Hotel BHLILZ yang Membuat<br>Isitirahat Anda Lebih Berkesan Dan Nyaman</h3>
         <p>
-          Kontrol, Tingkatkan, Dan Maksimalkan Pendapatan Hotel Anda.<br>
-          BHLILZ Software, Channel Manager Murah, Website Hotel & Booking Engine Murah
-        </p>
+          Selamat datang di Hotel kami, tempat terbaik untuk beristirahat dan menikmati momen berharga.<br>
+Kami menawarkan kenyamanan, pelayanan ramah, serta fasilitas lengkap yang dirancang untuk membuat perjalanan Anda lebih menyenangkan. Terima kasih telah memilih kami sebagai tempat persinggahan Anda.        </p>
         <div class="small-list">
           <p>Booking.com &nbsp; agoda &nbsp; tiket.com &nbsp; traveloka</p>
         </div>

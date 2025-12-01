@@ -20,6 +20,37 @@ $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Klien.css">
     <link rel="stylesheet" href="nav/nav.css">
+
+    <style>
+        .btn-edit {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-edit:hover {
+            background: #1f776d;
+        }
+
+        .btn-delete {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background: #b71c1c;
+        }
+
+        table button {
+            margin-right: 5px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -79,7 +110,7 @@ $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
                 <th>Tipe Kamar</th>
                 <th>Check-in</th>
                 <th>Check-out</th>
-                <th>Edit</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
@@ -94,17 +125,27 @@ $tipe = isset($_GET['tipe']) ? $_GET['tipe'] : "";
             echo "<tr><td colspan='6'>Belum ada pesanan.</td></tr>";
         }
 
+        $no = 1; // nomor urut
+
         while ($row = mysqli_fetch_assoc($data)) { ?>
             <tr>
-                <td><?= $row['id'] ?></td>
+                <td><?= $no++ ?></td>
                 <td><?= $row['nama'] ?></td>
                 <td><?= $row['tipe_kamar'] ?></td>
                 <td><?= $row['checkin'] ?></td>
                 <td><?= $row['checkout'] ?></td>
                 <td>
+
                     <a href="edit_pesanan.php?id=<?= $row['id'] ?>">
                         <button class="btn-edit">Edit</button>
                     </a>
+
+                    <a 
+                        href="hapus_pesanan.php?id=<?= $row['id'] ?>" 
+                        onclick="return confirm('Yakin ingin menghapus pesanan ini?')">
+                        <button class="btn-delete">Hapus</button>
+                    </a>
+
                 </td>
             </tr>
         <?php } ?>

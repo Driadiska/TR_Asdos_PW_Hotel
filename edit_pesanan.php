@@ -2,7 +2,6 @@
 session_start();
 include "koneksi.php";
 
-// Cek login
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
@@ -10,10 +9,8 @@ if (!isset($_SESSION['username'])) {
 
 $user = $_SESSION['username'];
 
-// Ambil ID pesanan
 $id = $_GET['id'];
 
-// Ambil data pesanan berdasarkan ID + username
 $query = mysqli_query($conn, 
     "SELECT * FROM pesanan 
      WHERE id='$id' AND username='$user'"
@@ -50,7 +47,7 @@ $data = mysqli_fetch_assoc($query);
 
         <input type="hidden" name="id" value="<?= $data['id'] ?>">
 
-        <!-- Dropdown tipe kamar -->
+        
         <label>Tipe Kamar</label><br>
         <select 
             name="tipe_kamar"
