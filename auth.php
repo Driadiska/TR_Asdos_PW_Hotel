@@ -9,12 +9,12 @@ if (!isset($_POST['action'])) {
 
 $action = $_POST['action'];
 
-// ---------- REGISTER ----------
+
 if ($action === "register") {
 
     $username = trim($_POST['username']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $role     = $_POST['role'];
+    $role = 'user';
 
     $cek = mysqli_query($conn, "SELECT id FROM users WHERE username='$username'");
     if (mysqli_num_rows($cek) > 0) {
@@ -35,7 +35,6 @@ if ($action === "register") {
 
 
 
-// ---------- LOGIN ----------
 if ($action === "login") {
 
     $username = trim($_POST['username']);

@@ -53,13 +53,54 @@ if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
     echo "<script>window.location='klien.php';</script>";
 }
 
+if (isset($_POST['tambah_user']) && $_SESSION['role'] === 'admin') {
+    $username = mysqli_real_escape_string($conn, trim($_POST['username']));
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
+    if (!in_array($role, ['user', 'admin'])) { $role = 'user'; }
+
+    $cek = mysqli_query($conn, "SELECT id FROM users WHERE username='$username'");
+    if (mysqli_num_rows($cek) == 0) {
+        mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$username', '$password', '$role')");
+    }
+
+    echo "<script>window.location='klien.php';</script>";
+}
+
+if (isset($_POST['edit_user']) && $_SESSION['role'] === 'admin') {
+    $id = (int)$_POST['id_edit'];
+    $username = mysqli_real_escape_string($conn, trim($_POST['username_edit']));
+    $password = $_POST['password_edit'];
+    $role = mysqli_real_escape_string($conn, $_POST['role_edit']);
+    if (!in_array($role, ['user', 'admin'])) { $role = 'user'; }
+
+    if (!empty($password)) {
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        mysqli_query($conn, "UPDATE users SET username='$username', password='$hashed', role='$role' WHERE id=$id");
+    } else {
+        mysqli_query($conn, "UPDATE users SET username='$username', role='$role' WHERE id=$id");
+    }
+
+    echo "<script>window.location='klien.php';</script>";
+}
+
+if (isset($_POST['hapus_user']) && $_SESSION['role'] === 'admin') {
+    $id = (int)$_POST['id_hapus'];
+    mysqli_query($conn, "DELETE FROM users WHERE id=$id");
+
+    mysqli_query($conn, "SET @num := 0");
+    mysqli_query($conn, "UPDATE users SET id = (@num := @num + 1) ORDER BY id");
+    mysqli_query($conn, "ALTER TABLE users AUTO_INCREMENT = 1");
+    echo "<script>window.location='klien.php';</script>";
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Klien</title>
+    <title>Data User</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Klien.css">
@@ -99,15 +140,14 @@ if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
 </header>
 
 <section class="klien-box">
-<h2>Daftar Klien</h2>
+<h2>Daftar User</h2>
 
 <table>
 <thead>
 <tr>
     <th>ID</th>
-    <th>Nama Klien</th>
-    <th>No. Telepon</th>
-    <th>Alamat</th>
+    <th>Username</th>
+    <th>Role</th>
 
     <?php if ($_SESSION['role'] === 'admin') { ?>
         <th>Aksi</th>
@@ -118,23 +158,21 @@ if (isset($_POST['hapus']) && $_SESSION['role'] === 'admin') {
 <tbody>
 
 <?php
-$result = mysqli_query($conn, "SELECT * FROM klien ORDER BY id ASC");
+$result = mysqli_query($conn, "SELECT * FROM users ORDER BY id ASC");
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo "
     <tr>
         <td>".$row['id']."</td>
-        <td>".$row['nama']."</td>
-        <td>".$row['telepon']."</td>
-        <td>".$row['alamat']."</td>";
+        <td>".$row['username']."</td>
+        <td>".$row['role']."</td>";
 
     if ($_SESSION['role'] === 'admin') {
+        $js_username = json_encode($row['username']);
+        $js_role = json_encode($row['role']);
         echo "
         <td>
-            <button class='btn-yellow' onclick='openEditModal(".$row['id'].", 
-                    \"".$row['nama']."\", 
-                    \"".$row['telepon']."\", 
-                    \"".$row['alamat']."\")'>Edit</button>
+                <button class='btn-yellow' onclick='openEditModal(".$row['id'].", $js_username, $js_role)'>Edit</button>
 
             <button class='btn-red' onclick='openDeleteModal(".$row['id'].")'>Hapus</button>
         </td>";
@@ -150,7 +188,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 <br>
 
 <?php if ($_SESSION['role'] === 'admin') { ?>
-<button class="btn-green" onclick="openTambahModal()">+ Tambah Klien</button>
+<button class="btn-green" onclick="openTambahModal()">+ Tambah User/Admin</button>
 <?php } ?>
 
 </section>
@@ -159,14 +197,17 @@ while ($row = mysqli_fetch_assoc($result)) {
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalTambah">
     <div class="modal-box">
-        <h3>Tambah Klien</h3>
+        <h3>Tambah User / Admin</h3>
 
         <form method="POST">
-            <input type="text" name="nama" placeholder="Nama" required>
-            <input type="text" name="telepon" placeholder="Telepon" required>
-            <textarea name="alamat" placeholder="Alamat" required></textarea>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <select name="role" required>
+                <option value="user">User Biasa</option>
+                <option value="admin">Admin</option>
+            </select>
 
-            <button type="submit" name="tambah" class="btn-green">Simpan</button>
+            <button type="submit" name="tambah_user" class="btn-green">Simpan</button>
             <button type="button" class="btn-red" onclick="closeTambahModal()">Batal</button>
         </form>
     </div>
@@ -177,21 +218,24 @@ while ($row = mysqli_fetch_assoc($result)) {
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalEdit">
     <div class="modal-box">
-        <h3>Edit Klien</h3>
+        <h3>Edit User</h3>
 
         <form method="POST">
             <input type="hidden" name="id_edit" id="id_edit">
 
-            <label>Nama:</label>
-            <input type="text" name="nama_edit" id="nama_edit" required>
+            <label>Username:</label>
+            <input type="text" name="username_edit" id="username_edit" required>
 
-            <label>Telepon:</label>
-            <input type="text" name="telepon_edit" id="telepon_edit" required>
+            <label>Password (kosongkan jika tidak ingin mengubah):</label>
+            <input type="password" name="password_edit" id="password_edit">
 
-            <label>Alamat:</label>
-            <textarea name="alamat_edit" id="alamat_edit" required></textarea>
+            <label>Role:</label>
+            <select name="role_edit" id="role_edit" required>
+                <option value="user">User Biasa</option>
+                <option value="admin">Admin</option>
+            </select>
 
-            <button type="submit" name="edit" class="btn-yellow">Update</button>
+            <button type="submit" name="edit_user" class="btn-yellow">Update</button>
             <button type="button" class="btn-red" onclick="closeEditModal()">Batal</button>
         </form>
     </div>
@@ -202,13 +246,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 <?php if ($_SESSION['role'] === 'admin') { ?>
 <div class="modal-bg" id="modalDelete">
     <div class="modal-box">
-        <h3>Hapus Klien</h3>
-        <p>Yakin ingin menghapus klien ini?</p>
+        <h3>Hapus User</h3>
+        <p>Yakin ingin menghapus user ini?</p>
 
         <form method="POST">
             <input type="hidden" name="id_hapus" id="id_hapus">
 
-            <button type="submit" name="hapus" class="btn-red">Hapus</button>
+            <button type="submit" name="hapus_user" class="btn-red">Hapus</button>
             <button type="button" class="btn-green" onclick="closeDeleteModal()">Batal</button>
         </form>
     </div>
@@ -222,12 +266,12 @@ function openTambahModal(){ document.getElementById("modalTambah").style.display
 function closeTambahModal(){ document.getElementById("modalTambah").style.display = "none"; }
 
 
-function openEditModal(id, nama, telepon, alamat){
+function openEditModal(id, username, role){
     document.getElementById("modalEdit").style.display = "flex";
     document.getElementById("id_edit").value = id;
-    document.getElementById("nama_edit").value = nama;
-    document.getElementById("telepon_edit").value = telepon;
-    document.getElementById("alamat_edit").value = alamat;
+    document.getElementById("username_edit").value = username;
+    document.getElementById("password_edit").value = ""; // clears password field
+    document.getElementById("role_edit").value = role;
 }
 function closeEditModal(){ document.getElementById("modalEdit").style.display = "none"; }
 

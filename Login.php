@@ -52,11 +52,6 @@
         <h3>Register</h3>
         <input type="text" id="reg-username" name="username" placeholder="Username" required>
         <input type="password" id="reg-password" name="password" placeholder="Password" required>
-        <select id="reg-role" name="role" required style="width:100%; padding:10px; margin:10px 0;">
-          <option value="">-- Pilih Role --</option>
-          <option value="admin">Admin</option>
-          <option value="user">User Biasa</option>
-        </select>
 
         <button type="submit" class="btn">Daftar</button>
 
